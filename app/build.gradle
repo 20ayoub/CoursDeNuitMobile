@@ -25,6 +25,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
+    compile group: 'org.springframework.android', name: 'spring-android-rest-template', version: '2.0.0.M3'
+
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+    compile group: 'org.springframework.android', name: 'spring-android-core', version: '2.0.0.M3'
+
+
+
 }
