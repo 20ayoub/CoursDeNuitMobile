@@ -42,39 +42,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class HttpReqTask extends AsyncTask<Void, Void, List<Etudiant>> {
+    private class HttpReqTask extends AsyncTask<Void,Void,List<Requete>> {
 
         @Override
-        protected List<Etudiant> doInBackground(Void... params) {
+        protected List<Requete> doInBackground(Void... params) {
 
             try {
-                URI url = new URI("http://0ae9b072.ngrok.io/etudiants/");
-                RestTemplate restTemplate = new RestTemplate();
+                String apiUrl="http://192.168.101.1:8080/requetes";
+                RestTemplate restTemplate= new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                ResponseEntity<List<Etudiant>> entity = restTemplate.exchange(url, HttpMethod.GET,null,new ParameterizedTypeReference<List<Etudiant>>(){});
-                List<Etudiant> etudiants =entity.getBody();
 
+                ResponseEntity<Requete[]> utilisateur= restTemplate.getForEntity(apiUrl,Requete[].class);
 
-                return etudiants;
+                Requete[] etudiants = utilisateur.getBody();
 
-            } catch (Exception e) {
-                Log.e("", e.getMessage());
+                List<Requete> et = new ArrayList<Requete>();
+
+                for(Requete etud : etudiants){
+                    et.add(etud);
+                }
+
+                return et;
+            }catch (Exception e){
+                Log.e("",e.getMessage());
 
             }
             return null;
         }
 
         @Override
-        protected void onPostExecute(List<Etudiant> etudiants) {
-            super.onPostExecute(etudiants);
-            int i=0;
-            for(Etudiant etudiant:etudiants) {
-                i=i++;
+        protected void onPostExecute(List<Requete> utilisateur) {
+            super.onPostExecute(utilisateur);
 
-                Log.i("Requete: ", "###############");
-                Log.i("requete.id", String.valueOf(etudiant.getEmail()));
+            for(Requete etudia : utilisateur) {
 
-
+                Log.i("User: ", "###############");
+                Log.i("user.id", String.valueOf(etudia.getId()));
+                Log.i("user.name", String.valueOf(etudia.getEtat()));
 
             }
 
