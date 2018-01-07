@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pi.com.coursdenuitmobile.R;
+import pi.com.coursdenuitmobile.entities.Etudiant;
+import pi.com.coursdenuitmobile.entities.Requete;
 import pi.com.coursdenuitmobile.entities.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,21 +42,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class HttpReqTask extends AsyncTask<Void, Void, ArrayList<User>> {
+    private class HttpReqTask extends AsyncTask<Void, Void, List<Etudiant>> {
 
         @Override
-        protected ArrayList<User> doInBackground(Void... params) {
+        protected List<Etudiant> doInBackground(Void... params) {
 
             try {
-                URI url = new URI("http://b4ddce7b.ngrok.io/users/");
+                URI url = new URI("http://0ae9b072.ngrok.io/etudiants/");
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                ResponseEntity<List<Etudiant>> entity = restTemplate.exchange(url, HttpMethod.GET,null,new ParameterizedTypeReference<List<Etudiant>>(){});
+                List<Etudiant> etudiants =entity.getBody();
 
-                ResponseEntity<ArrayList<User>> entity = restTemplate.exchange(url, HttpMethod.GET,null,new ParameterizedTypeReference<ArrayList<User>>(){});
-                ArrayList<User> users =entity.getBody();
 
-
-                return users;
+                return etudiants;
 
             } catch (Exception e) {
                 Log.e("", e.getMessage());
@@ -64,13 +65,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<User> users) {
-            super.onPostExecute(users);
-            for(User user:users) {
+        protected void onPostExecute(List<Etudiant> etudiants) {
+            super.onPostExecute(etudiants);
+            int i=0;
+            for(Etudiant etudiant:etudiants) {
+                i=i++;
 
-                Log.i("User: ", "###############");
-                Log.i("user.id", String.valueOf(user.getId()));
-                Log.i("user.name", String.valueOf(user.getName()));
+                Log.i("Requete: ", "###############");
+                Log.i("requete.id", String.valueOf(etudiant.getEmail()));
+
+
+
             }
 
         }

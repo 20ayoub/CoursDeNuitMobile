@@ -7,19 +7,12 @@ public abstract class Utilisateur {
 
 
 	private Long id;
-
 	private String nom;
 	private String prenom;
 	private String email;
-
 	private String motDepasse;
-
-
 	private Genre genre;
-	
-	private boolean isAdmin=false; 
-
-
+	private boolean isAdmin=false;
 	private Byte[] Image;
 
 	public Utilisateur() {
