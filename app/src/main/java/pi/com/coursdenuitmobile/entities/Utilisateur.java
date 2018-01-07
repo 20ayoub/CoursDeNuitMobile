@@ -2,17 +2,34 @@ package pi.com.coursdenuitmobile.entities;
 
 
 import pi.com.coursdenuitmobile.enume.Genre;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
+@JsonSubTypes({ @JsonSubTypes.Type(value = Etudiant.class, name = "etudiant"),
+		@JsonSubTypes.Type(value = Professeur.class, name = "professeur") })
 public abstract class Utilisateur {
 
 
 	private Long id;
+
 	private String nom;
 	private String prenom;
 	private String email;
+
+	@JsonIgnore
 	private String motDepasse;
+
+
 	private Genre genre;
-	private boolean isAdmin=false;
+	
+	private boolean isAdmin=false; 
+
+
 	private Byte[] Image;
 
 	public Utilisateur() {
